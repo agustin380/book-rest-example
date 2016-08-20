@@ -22,3 +22,18 @@ class TestModels(unittest.TestCase):
         book = Book.query.first()
         self.assertEqual(book.title, title)
         self.assertEqual(book.author, author)
+
+    def test_chapter_creation(self):
+        """Test that a chapter can be created correctly."""
+        title = 'Fahrenheit 451'
+        author = 'Ray Bradbury'
+        book = Book(title=title, author=author)
+        db.session.add(book)
+        db.session.commit()
+
+        name = 'Chapter 1'
+        chapter = Chapter(name=name, book=book)
+        db.session.add(chapter)
+        db.session.commit()
+        self.assertEqual(chapter.name, name)
+        self.assertIn(chapter, book.chapters.all())
