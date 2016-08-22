@@ -2,8 +2,8 @@ import os
 
 from flask_sqlalchemy import SQLAlchemy
 
-from ..main import app
-from .. import settings
+from .app import app
+from . import settings
 
 app.config['SQLALCHEMY_DATABASE_URI'] = settings.DATABASE_URI
 db = SQLAlchemy(app)
@@ -21,10 +21,27 @@ class Book(db.Model):
     def __repr__(self):
         return '<Book title:{} author:{}>'.format(self.title, self.author)
 
-    def save(self):
-        db.session.add(self)
+    @classmethod
+    def create(cls, title, author):
+        book = cls(title, author)
+        db.session.add(book)
+        db.session.commit()
+        return book
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
+    def to_dict(self):
+        """Special method for serialization."""
+        chapters = [chapter.to_dict() for chapter in self.chapters.all()]
+        data = {
+            'id': self.id,
+            'title': self.title,
+            'author': self.author,
+            'chapters': chapters,
+        }
+        return data
 
 class Chapter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -41,3 +58,23 @@ class Chapter(db.Model):
 
     def __repr__(self):
         return '<Chapter {}>'.format(self.name)
+
+    @classmethod
+    def create(cls, name, book):
+        chapter = cls(name, book)
+        db.session.add(chapter)
+        db.session.commit()
+        return chapter
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def to_dict(self):
+        """Special method for serialization."""
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'book': self.book,
+        }
+        return data
