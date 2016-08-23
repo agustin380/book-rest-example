@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import reqparse, abort, Resource
 
 from ..models import Book, Chapter
 from ..utils import get_model_or_404

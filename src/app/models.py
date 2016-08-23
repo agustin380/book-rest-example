@@ -42,7 +42,7 @@ class Book(db.Model):
 
     def to_dict(self):
         """Special method for serialization."""
-        chapters = [chapter.to_dict() for chapter in self.chapters.all()]
+        chapters = [chapter.id for chapter in self.chapters.all()]
         data = {
             'id': self.id,
             'title': self.title,
@@ -57,7 +57,7 @@ class Chapter(db.Model):
 
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'))
     book = db.relationship(
-        'Book', backref=db.backref('chapters', lazy='dynamic')
+        'Book', backref=db.backref('chapters', lazy='dynamic'), foreign_keys=book_id
     )
 
     def __init__(self, name, book):
@@ -74,6 +74,12 @@ class Chapter(db.Model):
         db.session.commit()
         return chapter
 
+    def update(self, name=None):
+        if name:
+            self.name = name
+        db.session.commit()
+        return self
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -83,6 +89,6 @@ class Chapter(db.Model):
         data = {
             'id': self.id,
             'name': self.name,
-            'book': self.book,
+            'book': self.book.id,
         }
         return data
