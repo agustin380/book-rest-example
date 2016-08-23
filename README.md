@@ -1,19 +1,23 @@
-### Challenge: "RESTful Book" Web Service
+## "RESTful Book" Web Service
 
-You should:
-- Use Flask or Falcon as your framework
-- Support the following entity types:
-    - Book
-    - Chapter
+A RESTful server example for a book database. Supports books and chapters data.
 
-A Book is a collection of zero or more Chapters.  
-By making HTTP requests, one should be able to do the following:
+Requires Python 3.4 or greater.
 
-- Get a list of all existing Books in your database (GET /books/)
-- Get a list of all Chapters within a single Book (GET /books/5/chapters/)
-- Create a new Book (with required "Title" and "Author" fields) (POST /books/)
-- Create Chapters (with a required "Name" field) which will belong to an existing Book (POST /chapters/)
-- Change the "Name" field of an existing Chapter (PUT /chapters/3/)
-- Delete an existing Chapter (DELETE /chapters/3/)
-- Update the Title and/or Author fields of the Book (PUT /books/3/)
-- Delete an existing Book (DELETE /books/)
+### Endpoints
+All endpoints are documented alongside their implementation. For more information, check the `src/app/resources` directory.
+
+### Running
+
+`pip install -r requirements.txt`
+
+`python src/manage.py runserver --host 0.0.0.0 --port 8080` will run a development server.
+
+### Settings
+Settings can be found in the `src/app/settings.py` file.
+
+`DATABASE_URI`: The location where the database data will be stored. Defaults to the project root.
+
+### Testing
+
+`python src/manage.py test` will run the whole test suite. Tests are located in the `src/app/tests` directory.

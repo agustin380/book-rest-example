@@ -10,6 +10,8 @@ db = SQLAlchemy(app)
 
 
 class Book(db.Model):
+    """Model for a book"""
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=True)
     author = db.Column(db.String(80), unique=True)
@@ -23,12 +25,30 @@ class Book(db.Model):
 
     @classmethod
     def create(cls, title, author):
+        """Create a new Book.
+
+        :param title: the title of a book.
+        :type title: str
+        :param author: the author of a book.
+        :type author: str
+        :return: Book instance.
+        :rtype: Book
+        """
         book = cls(title, author)
         db.session.add(book)
         db.session.commit()
         return book
 
     def update(self, title=None, author=None):
+        """Update a Book.
+
+        :param title: the title of a book.
+        :type title: str
+        :param author: the author of a book.
+        :type author: str
+        :return: Book instance.
+        :rtype: Book
+        """
         if title:
             self.title = title
         if author:
@@ -37,6 +57,7 @@ class Book(db.Model):
         return self
 
     def delete(self):
+        """Delete a Book."""
         db.session.delete(self)
         db.session.commit()
 
@@ -71,18 +92,35 @@ class Chapter(db.Model):
 
     @classmethod
     def create(cls, name, book):
+        """Create a new Chapter.
+
+        :param name: the name of a chapter.
+        :type name: str
+        :param book: the book this chapter will belong to.
+        :type book: str
+        :return: Chapter instance.
+        :rtype: Chapter
+        """
         chapter = cls(name, book)
         db.session.add(chapter)
         db.session.commit()
         return chapter
 
     def update(self, name=None):
+        """Update the data of a Chapter.
+
+        :param name: the name of a chapter.
+        :type name: str
+        :return: Chapter instance.
+        :rtype: Chapter
+        """
         if name:
             self.name = name
         db.session.commit()
         return self
 
     def delete(self):
+        """Delete a Chapter."""
         db.session.delete(self)
         db.session.commit()
 
