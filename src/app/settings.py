@@ -1,3 +1,6 @@
-#DATABASE_URI = 'sqlite:///../../test.db'
+import sys
 
-DATABASE_URI = 'sqlite:///:memory:'
+if 'test' in sys.argv:
+    DATABASE_URI = 'sqlite:///:memory:'
+else:
+    DATABASE_URI = 'sqlite:///../../test.db'

@@ -9,6 +9,7 @@ from ..models import db, Book, Chapter
 class ApiTestCase(unittest.TestCase):
     """Base API test case."""
     def setUp(self):
+        """Create model tables"""
         app.config['TESTING'] = True
         self.app = app.test_client()
         db.create_all()

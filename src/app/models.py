@@ -57,7 +57,9 @@ class Chapter(db.Model):
 
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'))
     book = db.relationship(
-        'Book', backref=db.backref('chapters', lazy='dynamic'), foreign_keys=book_id
+        'Book', foreign_keys=book_id, backref=db.backref(
+            'chapters', cascade="all, delete-orphan", lazy='dynamic'
+        )
     )
 
     def __init__(self, name, book):
