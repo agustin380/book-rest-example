@@ -11,19 +11,20 @@ def cmds():
 
 @cmds.command()
 @click.option('--port', default=5000, type=int,
-              help=u'Set application server port!')
+              help=u'Set server port')
 @click.option('--host', default='0.0.0.0', type=str,
-              help=u'Set application server host!')
+              help=u'Set server host')
 @click.option('--debug', default=False,
-              help=u'Set application server debug!')
+              help=u'Set server debug')
 def runserver(port, host, debug):
-    click.echo('Start server at: {}:{}'.format(ip, port))
+    click.echo('Start server at: {}:{}'.format(host, port))
     app.run(host=host, port=port, debug=debug)
 
 
 @cmds.command()
 def test():
     import unittest
+
     loader = unittest.TestLoader()
     tests = loader.discover('app.tests')
     testRunner = unittest.runner.TextTestRunner()

@@ -8,32 +8,42 @@ class TestModels(unittest.TestCase):
         db.create_all()
 
     def tearDown(self):
-        Book.query.delete()
-        Chapter.query.delete()
+        db.drop_all()
 
-    def test_book_creation(self):
-        """Test that a book can be created correctly."""
+    def test_book_creation_and_deletion(self):
+        """Test that a book can be created and deleted correctly."""
         title = 'Fahrenheit 451'
         author = 'Ray Bradbury'
-        book = Book(title=title, author=author)
-        db.session.add(book)
-        db.session.commit()
+        book = Book.create(title, author)
 
         book = Book.query.first()
         self.assertEqual(book.title, title)
         self.assertEqual(book.author, author)
 
-    def test_chapter_creation(self):
-        """Test that a chapter can be created correctly."""
+        book.delete()
+        book = Book.query.first()
+        self.assertIsNone(book)
+
+    def test_book_update(self):
+        """Test that a book can be updated."""
+        book = Book.create('title', 'author')
         title = 'Fahrenheit 451'
         author = 'Ray Bradbury'
-        book = Book(title=title, author=author)
-        db.session.add(book)
-        db.session.commit()
+        book.update(title, author)
 
-        name = 'Chapter 1'
-        chapter = Chapter(name=name, book=book)
-        db.session.add(chapter)
-        db.session.commit()
-        self.assertEqual(chapter.name, name)
-        self.assertIn(chapter, book.chapters.all())
+        self.assertEqual(book.title, title)
+        self.assertEqual(book.author, author)
+
+    def test_book_serialization(self):
+        """Test that a book is serialized correctly."""
+        title = 'Fahrenheit 451'
+        author = 'Ray Bradbury'
+        book = Book.create(title, author)
+
+        data = {
+            'id': 1,
+            'title': title,
+            'author': author,
+            'chapters': [],
+        }
+        self.assertEqual(data, book.to_dict())

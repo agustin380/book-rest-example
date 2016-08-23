@@ -28,6 +28,14 @@ class Book(db.Model):
         db.session.commit()
         return book
 
+    def update(self, title=None, author=None):
+        if title:
+            self.title = title
+        if author:
+            self.author = author
+        db.session.commit()
+        return self
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()

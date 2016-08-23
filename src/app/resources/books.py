@@ -35,5 +35,9 @@ class BookListResource(Resource):
 
     def post(self):
         args = parser.parse_args()
+        title = args['title']
+        author = args['author']
+        if not title or not author:
+            abort(400, message='Missing parameters')
         book = Book.create(title=args['title'], author=args['author'])
         return book.to_dict(), 201
