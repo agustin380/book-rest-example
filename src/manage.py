@@ -20,6 +20,10 @@ def runserver(port, host, debug):
     click.echo('Start server at: {}:{}'.format(host, port))
     app.run(host=host, port=port, debug=debug)
 
+@cmds.command()
+def syncdb():
+    from app.models import db
+    db.create_all()
 
 @cmds.command()
 def test():

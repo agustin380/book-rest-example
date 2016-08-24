@@ -16,3 +16,7 @@ def get_model_or_404(model_class, model_id):
         abort(404, message=message)
 
     return instance
+
+
+def log_exception(sender, exception, **extra):
+    sender.logger.debug('Got exception during processing: %s', exception)

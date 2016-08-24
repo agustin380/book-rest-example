@@ -11,12 +11,13 @@ All endpoints are documented alongside their implementation. For more informatio
 
 `pip install -r requirements.txt`
 
+`python src/manage.py syncdb` will create the necessary database tables to run the app.
 `python src/manage.py runserver --host 0.0.0.0 --port 8080` will run a development server.
 
 ### Settings
 Settings can be found in the `src/app/settings.py` file.
 
-`DATABASE_URI`: The location where the database data will be stored. Defaults to the project root.
+`DATABASE_URI`: The location where the database will be stored. Defaults to the project root.
 
 ### Testing
 
