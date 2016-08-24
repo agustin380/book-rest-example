@@ -18,6 +18,8 @@ All endpoints are documented alongside their implementation. For more informatio
 Settings can be found in the `src/app/settings.py` file.
 
 `DATABASE_URI`: The location where the database will be stored. Defaults to the project root.
+`LOG_FILE_PATH`: The path of the logfile. Defaults to the file 'app.log' in the project root.
+`LOGGING_FORMAT`: The format in which the logger will write to the log file.
 
 ### Testing
 
